@@ -1,0 +1,345 @@
+{
+	"info": {
+		"_postman_id": "a2ee46df-38a2-4404-9fff-0c14c748c7d4",
+		"name": "Scrawlr",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create a user",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "User test",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "user_test",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "userpassuserpass",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Authenticate User",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "name",
+							"value": "User test",
+							"type": "text"
+						},
+						{
+							"key": "username",
+							"value": "user_test",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "userpassuserpass",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/users?username=user_test&password=userpassuserpass",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "username",
+							"value": "user_test"
+						},
+						{
+							"key": "password",
+							"value": "userpassuserpass"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create a Todo Note",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "SVZNZ1Z0WkpHUFhNc3VmRGhYTkN2cTZQQkJKVUt0T29wUG9IUm5Ebg==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "content",
+							"value": "Design new feature",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/todonotes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"todonotes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a Todo Note",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "SVZNZ1Z0WkpHUFhNc3VmRGhYTkN2cTZQQkJKVUt0T29wUG9IUm5Ebg==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "content",
+							"value": "These are the tasks I want to do today ...",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/todonotes/23b1abf0-cd2d-4838-bf25-476fc1c7cc76",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"todonotes",
+						"23b1abf0-cd2d-4838-bf25-476fc1c7cc76"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mark Todo Note as complete",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "SVZNZ1Z0WkpHUFhNc3VmRGhYTkN2cTZQQkJKVUt0T29wUG9IUm5Ebg==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "content",
+							"value": "These are the tasks I want to do today ...",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/todonotes/complete/13f3b588-b109-4f9f-9391-73653487d247",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"todonotes",
+						"complete",
+						"13f3b588-b109-4f9f-9391-73653487d247"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Mark Todo Note as incomplete Copy",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "SVZNZ1Z0WkpHUFhNc3VmRGhYTkN2cTZQQkJKVUt0T29wUG9IUm5Ebg==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "content",
+							"value": "These are the tasks I want to do today ...",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/todonotes/incomplete/13f3b588-b109-4f9f-9391-73653487d247",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"todonotes",
+						"incomplete",
+						"13f3b588-b109-4f9f-9391-73653487d247"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all todo notes for logged in user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "SVZNZ1Z0WkpHUFhNc3VmRGhYTkN2cTZQQkJKVUt0T29wUG9IUm5Ebg==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "content",
+							"value": "These are the tasks I want to do today ...",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/todonotes/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"todonotes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "List all todo notes for somer user",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "SVZNZ1Z0WkpHUFhNc3VmRGhYTkN2cTZQQkJKVUt0T29wUG9IUm5Ebg==",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "content",
+							"value": "These are the tasks I want to do today ...",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8000/api/todonotes/ac26ae77-1665-40dd-9a15-a65d29243f02",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"todonotes",
+						"ac26ae77-1665-40dd-9a15-a65d29243f02"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
