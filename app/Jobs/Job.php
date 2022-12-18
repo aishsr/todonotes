@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Jobs;
 
@@ -18,7 +18,7 @@ abstract class Job implements ShouldQueue
     | is shared across all of your jobs. The trait included with the class
     | provides access to the "queueOn" and "delay" queue helper methods.
     |
-    */
+     */
 
     use InteractsWithQueue, Queueable, SerializesModels;
 }

@@ -1,0 +1,46 @@
+###
+# Correct posts with dates append (should have no other appends in output)
+GET http://127.0.0.1:9909/v1/posts?append[]=dates
+###
+# Correct posts with dates, author append (should have no other appends in output)
+GET http://127.0.0.1:9909/v1/posts?append[]=dates&append[]=author&filter[author_handle]=red&filter[author_handle]=startswith|red
+###
+# Correct post.show
+GET http://127.0.0.1:9909/v1/posts/nPC9L7YjM558gdDHShS3cW2U_
+###
+# Correct post.destroy
+DELETE http://127.0.0.1:9909/v1/posts/nPC9L7YjM558gdDHShS3cW2U_
+###
+# Correct posts with sort
+GET http://127.0.0.1:9909/v1/posts?sort[]=asc|created_at
+###
+# Correct posts with sort
+GET http://127.0.0.1:9909/v1/posts?sort[]=created_at
+###
+# Correct posts with multiple sorts
+GET http://127.0.0.1:9909/v1/posts?sort[]=created_at&sort[]=metrics.votes
+###
+# Incorrect posts with sort
+GET http://127.0.0.1:9909/v1/posts?sort[]=test
+###
+POST http://127.0.0.1:9909/v1/posts HTTP/1.1
+Content-Type: application/json
+
+{
+    "locality": "sample",
+    "content": "Testing",
+    "title": "Wed, 21 Oct 2015 18:27:50 GMT",
+    "community_id": "Wed, 21 Oct 2015 18:27:50 GMT",
+    "visibility_id": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
+
+###
+# Good Request
+PUT http://127.0.0.1:9909/v1/posts/rd53Qcs84MQuDSMiWjKqZM
+###
+# Bad Request
+PUT http://127.0.0.1:9909/v1/posts/rd53Qcs84MQuDSMiWjK
+###
+PATCH http://127.0.0.1:9909/v1/posts/rd53Qcs84MQuDSMiWjKqZM
+###
+DELETE http://127.0.0.1:9909/v1/posts/rd53Qcs84MQuDSMiWjKqZM

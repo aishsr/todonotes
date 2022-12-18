@@ -1,12 +1,8 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
-use Symfony\Component\Yaml\Yaml;
-use App\Models\User;
-use App\Models\ToDoNote;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,9 +11,13 @@ class DatabaseSeeder extends Seeder
      *
      * @return void
      */
-    public function run()
+    public function run(): void
     {
-        $this->call(UserSeeder::class);
-        $this->call(ToDoNoteSeeder::class);
+        $this->call(
+            [
+                UserTableSeeder::class,
+                NoteTableSeeder::class,
+            ],
+        );
     }
 }

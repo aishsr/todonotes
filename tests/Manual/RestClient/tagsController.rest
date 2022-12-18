@@ -1,0 +1,15 @@
+###
+# Correct index call (no options)
+GET http://127.0.0.1:9909/v1/tags
+###
+POST http://127.0.0.1:9909/v1/tags HTTP/1.1
+Content-Type: application/json
+
+{
+    "locality": "sample",
+    "content": "Testing",
+    "title": "Wed, 21 Oct 2015 18:27:50 GMT",
+    "community_id": "Wed, 21 Oct 2015 18:27:50 GMT",
+    "visibility_id": "Wed, 21 Oct 2015 18:27:50 GMT"
+}
+

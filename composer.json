@@ -1,108 +1,190 @@
 {
-    "name": "onboarding-empty/todonotes",
-    "description": "To Do Notes Application - Implementing using Lumen framework",
-    "keywords": ["php", "lumen", "laravel", "api"],
-    "license": "Scrawlr",
+    "name": "scrawlr/be-api-core",
+    "version": "v0.1.22",
+    "description": "scrawlr/be-api-core",
+    "keywords": [
+        "php",
+        "lavavel",
+        "lumen",
+        "api"
+    ],
     "type": "project",
-    "authors": [{
-      "name": "Aish Srinivas",
-      "email": "aish.srinivas@scrawlr.com"
-    }],
-    "repositories": [
-      {
-        "type": "vcs",
-        "url": "https://github.com/scrawlr/infra-git-hooks"
-      },
-      {
-        "type": "vcs",
-        "url": "https://github.com/scrawlr/lib-php-identifiers"
-      },
-      {
-        "type": "vcs",
-        "url": "https://github.com/scrawlr/standards-php-codesniffer"
-      },
-      {
-        "type": "vcs",
-        "url": "https://github.com/scrawlr/structural-circleci-config"
-      },
-      {
-        "type": "vcs",
-        "url": "https://github.com/scrawlr/laravel-queueable-action"
-      }
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Matija Boban",
+            "email": "matija@scrawlr.com"
+        },
+        {
+            "name": "Jonathan Shahen",
+            "email": "jonathan.shahen@scrawlr.com"
+        }
     ],
     "require": {
-        "php": "^7.3|^8.0",
-        "editorconfig-checker/editorconfig-checker": "^10.2",
-        "laravel/lumen-framework": "^8.0",
-        "scrawlr/standards-php-codesniffer": "^1.0"
+        "php": "^8.1",
+        "comcast/php-legal-licenses": "^1.1.5",
+        "firebase/php-jwt": "^5.5",
+        "illuminate/http": "^8.17",
+        "laravel/legacy-factories": "^1.1",
+        "laravel/lumen-framework": "^8.3.2",
+        "laravel/tinker": "^2.5",
+        "league/flysystem": "^1.0",
+        "league/flysystem-aws-s3-v3": "^1.0",
+        "league/flysystem-cached-adapter": "~1.0",
+        "php-open-source-saver/jwt-auth": "^2.0",
+        "respect/validation": "^2.1",
+        "rutorika/sortable": "^8.0",
+        "tymon/jwt-auth": "^1.0.2"
     },
     "require-dev": {
+        "brianium/paratest": "^6.4",
+        "editorconfig-checker/editorconfig-checker": "^10.2.1",
         "fakerphp/faker": "^1.9.1",
+        "johnkary/phpunit-speedtrap": "^3.3",
         "mockery/mockery": "^1.3.1",
-        "phpunit/phpunit": "^9.3"
+        "nunomaduro/collision": "^5.3",
+        "phpunit/phpunit": "^9.5",
+        "squizlabs/php_codesniffer": "3.*"
     },
     "autoload": {
+        "classmap": [
+            "database"
+        ],
         "psr-4": {
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
+            "Database\\Migrations\\": "database/migrations/",
             "Database\\Seeders\\": "database/seeders/",
-            "Database\\Migrations\\": "database/migrations/"
+            "Scrawlr\\Http\\Requests\\": "app/Http/Requests/",
+            "Scrawlr\\Providers\\": "app/Providers",
+            "Scrawlr\\Services\\": "app/Services",
+            "Scrawlr\\Traits\\": "app/Traits/",
+            "Scrawlr\\Transforms\\Resources\\": "app/Transforms/Resources/"
         }
     },
     "autoload-dev": {
-        "classmap": [
-            "tests/"
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "cci:generate": [
+            "make -f vendor/scrawlr/structural-circleci-config/makefile -e path__source=vendor/scrawlr/structural-circleci-config/src"
+        ],
+        "cci:generate:on-change": [
+            "if [ -n \"$(git diff --cached --stat $(find .circleci/ -type f -iname *.yml -and ! -name \"config.yml\"))\" ]; then composer cci:generate; fi"
+        ],
+        "cci:generate:on-missing": [
+            "if [ ! -f .circleci/config.yml ]; then composer cci:generate; fi"
+        ],
+        "cci:validate": [
+            "if [ ! $CIRCLECI ]; then circleci config validate --skip-update-check; fi"
+        ],
+        "cci:install:php-cs-fixer": [
+            "composer install --working-dir=tools/php-cs-fixer"
+        ],
+        "clean:cache": [
+            "rm -rf .cache/*"
+        ],
+        "clean:tests_reports": [
+            "rm -rf tests/_reports/*"
+        ],
+        "clean": [
+            "@clean:cache",
+            "@clean:tests_reports"
+        ],
+        "docs:api": [
+            "./doctum.phar update docs/api/DoctumConfig.php -vvv"
+        ],
+        "docs:api:download": [
+            "curl -O https://doctum.long-term.support/releases/latest/doctum.phar && chmod +x doctum.phar"
+        ],
+        "docs:licenses": [
+            "vendor/bin/php-legal-licenses generate",
+            "mkdir -p docs/licenses",
+            "mv licenses.md docs/licenses/project_dependencies_legal_licenses.md"
+        ],
+        "lint:php-cs-fixer": [
+            "tools/php-cs-fixer/vendor/bin/php-cs-fixer --allow-risky=yes --stop-on-violation --dry-run fix ."
+        ],
+        "lint:php-cs-fixer-fix": [
+            "tools/php-cs-fixer/vendor/bin/php-cs-fixer --allow-risky=yes fix ."
+        ],
+        "lint:php-cs-fixer-nocache": [
+            "tools/php-cs-fixer/vendor/bin/php-cs-fixer --allow-risky=yes --stop-on-violation --dry-run --using-cache=no fix ."
+        ],
+        "lint:php-cs-fixer-nocache-fix": [
+            "tools/php-cs-fixer/vendor/bin/php-cs-fixer --allow-risky=yes --using-cache=no fix ."
+        ],
+        "lint:editorconfig": [
+            "vendor/bin/ec -config .configs/editorconfig-checker.json"
+        ],
+        "lint:phpcs": [
+            "vendor/bin/phpcs"
+        ],
+        "lint:phpcs-long": [
+            "vendor/bin/phpcs -v"
+        ],
+        "lint": [
+            "@lint:editorconfig",
+            "@lint:php-cs-fixer",
+            "@lint:phpcs"
+        ],
+        "lint:nocache": [
+            "@lint:editorconfig",
+            "@lint:php-cs-fixer-nocache",
+            "@lint:phpcs"
+        ],
+        "lint:cci": [
+            "@lint:editorconfig",
+            "@cci:install:php-cs-fixer",
+            "@lint:php-cs-fixer",
+            "@lint:phpcs-long"
+        ],
+        "lint:fix": [
+            "@lint:php-cs-fixer-fix"
+        ],
+        "lint:nocache-fix": [
+            "@lint:php-cs-fixer-nocache-fix"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-package-install": [],
+        "post-package-update": [],
+        "post-package-uninstall": [],
+        "self:update": [
+            "composer update --no-progress --no-interaction",
+            "@cci:generate"
+        ],
+        "test:all": [
+          "vendor/bin/phpunit -d memory_limit=512M --configuration=\".rulesets/phpunit.xml\" --colors=always"
+        ],
+        "test:unit": [
+          "vendor/bin/phpunit -d memory_limit=512M --configuration=\".rulesets/phpunit.xml\" --colors=always --testsuite Unit"
+        ],
+        "test:integration": [
+          "vendor/bin/phpunit -d memory_limit=512M --configuration=\".rulesets/phpunit.xml\" --colors=always --testsuite Integration"
+        ],
+        "test:path": [
+          "vendor/bin/phpunit -d memory_limit=512M --configuration=\".rulesets/phpunit.xml\" --colors=always"
+        ],
+        "test:filter": [
+          "vendor/bin/phpunit -d memory_limit=512M --configuration=\".rulesets/phpunit.xml\" --colors=always --filter"
+        ],
+        "test:phpunit-parallel": [
+          "vendor/bin/paratest -p4 tests"
         ]
     },
     "config": {
+        "optimize-autoloader": true,
         "preferred-install": "dist",
+        "process-timeout": 20000,
         "sort-packages": true,
-        "optimize-autoloader": true
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
     },
     "minimum-stability": "dev",
-    "prefer-stable": true,
-    "scripts": {
-      "docs:licenses": [
-        "vendor/bin/php-legal-licenses generate",
-        "mkdir -p docs/licenses",
-        "mv licenses.md docs/licenses/project_dependencies_legal_licenses.md"
-      ],
-      "git:hooks-add": [
-        "cghooks add --force-win"
-      ],
-      "git:hooks-refresh": [
-        "@git:hooks-uninstall",
-        "@git:hooks-add"
-      ],
-      "git:hooks-update": [
-        "cghooks update --force-win"
-      ],
-      "git:hooks-uninstall": [
-        "cghooks remove"
-      ],
-      "lint:php-cs-fixer": [
-        "tools/php-cs-fixer/vendor/bin/php-cs-fixer --allow-risky=yes --stop-on-violation --dry-run fix ."
-      ],
-      "lint:php-cs-fixer-fix": [
-        "tools/php-cs-fixer/vendor/bin/php-cs-fixer --allow-risky=yes fix ."
-      ],
-      "lint:editorconfig": [
-        "vendor/bin/ec -config .configs/editorconfig-checker.json"
-      ],
-      "lint": [
-        "@lint:editorconfig",
-        "@lint:php-cs-fixer"
-      ],
-      "lint:cci": [
-        "@lint:editorconfig",
-        "@cci:install:php-cs-fixer",
-        "@lint:php-cs-fixer"
-      ],
-      "lint:fix": [
-        "@lint:php-cs-fixer-fix"
-      ],
-        "post-root-package-install": [
-            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
-        ]
-    }
+    "prefer-stable": true
 }

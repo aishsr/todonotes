@@ -1,74 +1,80 @@
-<?php
+<?php declare(strict_types = 1);
 
-use Illuminate\Support\Facades\Route;
 use Carbon\Carbon;
-
-/** @var \Laravel\Lumen\Routing\Router $router */
-
-// header('Access-Control-Allow-Origin:  *');
-// header('Access-Control-Allow-Methods:  POST, GET, OPTIONS, PUT, DELETE');
-// header('Access-Control-Allow-Headers:  Content-Type, X-Auth-Token, Origin, Authorization');
+use Illuminate\View\View;
+use App\Helpers\RouteHelper;
 
 /*
-|--------------------------------------------------------------------------
-| Application Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register all of the routes for an application.
-| It is a breeze. Simply tell Lumen the URIs it should respond to
-| and give it the Closure to call when that URI is requested.
-|
-*/
+    |--------------------------------------------------------------------------
+    | Set The Application start time
+    |--------------------------------------------------------------------------
+    |
+ */
 
-$router->get(
-    '/status',
-    function () {
+config(
+    [
+        'app.start' => microtime(true),
+    ],
+);
+
+/*
+    |--------------------------------------------------------------------------
+    | Status Route
+    |--------------------------------------------------------------------------
+    |
+    | Notes: TBA
+    |
+ */
+
+$rh = new RouteHelper($router, [], __FILE__);
+$rh->logStartRoutes();
+
+$rh->addRoute([
+    'method' => 'GET',
+    'uri' => '/status',
+    'action' => function () {
+        // Return configuration variables in a non-production enviroment.
+        if ('local' === config('app.env') || 'testing' === config('app.env')) {
+            return response()->json(
+                [
+                    'status' => 'up',
+                    'release' => config('app.release'),
+                    'env' => config('app.env'),
+                    'details' => config('app.env') . ' - ' . config('app.name') . ' - ' . Carbon::now()->format(
+                        'd.m.Y',
+                    ),
+                ],
+            );
+        }
+
+        // In a production enviroment, the route returns just the status field.
         return response()->json(
             [
                 'status' => 'up',
-                'release' => 'local',
-                'env' => 'local',
-                'details' => 'local - onboarding-empty: to_do_notes application - ' . Carbon::now()->format(
-                    'd.m.Y',
-                ),
+                'release' => config('app.release'),
             ],
         );
-
     },
-);
+]);
 
-$router->group(['prefix' => 'api'], function () use ($router) {
+// Only create these routes when running locally
+if ('local' == config('app.env')) {
+    $rh->addRoute([
+        'method' => 'GET',
+        'uri' => '/',
+        'action' => function () {
+            return view('errors.error');
+        },
+    ]);
 
-    $router->group(['prefix' => 'users'], function () use ($router) {
-        // create a user
-        $router->post('/', ['uses' => 'UserController@create_user']);
+    $rh->addRoute([
+        'method' => 'GET',
+        'uri' => '/xdebug',
+        'action' => [
+            'as' => 'status.xdebug',
+            'uses' => 'DebugController@xdebug',
+        ],
+    ]);
+}
 
-        // authenticate user
-        $router->get('/', ['uses' => 'UserController@authenticate']);
-
-    });
-
-
-    $router->group(['prefix' => 'todonotes', 'middleware' => 'auth'], function () use ($router) {
-
-        // create a todo note
-        $router->post('/', ['uses' => 'ToDoNoteController@create_todonote']);
-
-        // delete a todo note
-        $router->delete('/{id}', ['uses' => 'ToDoNoteController@delete']);
-
-        // mark todo note as complete
-        $router->put('/complete/{id}', ['uses' => 'ToDoNoteController@update_complete']);
-
-        // mark todo note as incomplete
-        $router->put('/incomplete/{id}', ['uses' => 'ToDoNoteController@update_incomplete']);
-
-        // list all todo notes for logged in user
-        $router->get('/',  ['uses' => 'ToDoNoteController@showAllToDoNotesForCurrentUser']);
-
-        // list all todo notes for arbitrary user
-        $router->get('/{userid}', ['uses' => 'ToDoNoteController@showAllToDoNotesForGivenUser']);
-
-}   );
-
-});
+$rh->logEndRoutes();

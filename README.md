@@ -1,149 +1,180 @@
-# To Do Notes project - Lumen API
+[![Maintainability](https://api.codeclimate.com/v1/badges/3e79f811702828a15c4f/maintainability)](https://codeclimate.com/repos/5fbba591e9717c26f500064f/maintainability)
 
-A simple To Do notes application that consists of APIs created using the Lumen framework and a UI built in Vue3.
+[![Test Coverage](https://api.codeclimate.com/v1/badges/3e79f811702828a15c4f/test_coverage)](https://codeclimate.com/repos/5fbba591e9717c26f500064f/test_coverage)
 
-## Installation Steps
+# be-api-core
 
+Core Scrawlr API project. Services the front end Scrawlr app via
+RESTFUL API request/responses according to API spec found here:
+<https://scrawlr.stoplight.io/docs/scrawlr-api-spec/YXBpOjc1MDEz-scrawlr-core-api>.
 
-1. Clone the repo: `git clone git@github.com:scrawlr/onboarding-empty.git`
-2. Switch to the IN-49 branch: `git checkout IN-49`
-3. Move into the onboarding-empty folder and execute `composer install`
-4. Configure the environment file: `cp .env.example .env`
+# Install Steps
 
-## Setup new Database and Seeding
+From the projects root directory:
 
-1. First connect and create a database in PostGres on port 5433. For an example root user:
-    `sudo -i -u root`
-    `psql`
-    `CREATE DATABASE todo_notes_app;`
-2. Navigate back to the `onboarding-empty` folder on your system.
-3. Create test data on the database: `php artisan migrate --seed`.
+**Note:** *Only required once.*
 
-## Start the servers
+1. Enter `cp .env.example .env` in your terminal to create your env.
+1. Install the latest versions for `docker` and `docker-compose`.
+1. Enter `composer install` in your terminal to pull in vendor packages.
 
-1. Start the develop ment server for the APIs: `php -S localhost:8000 -t public`
-2. Type `http://localhost:8000/` in a browser. You should see "ToDo Notes App" as the main title of the page.
-3. To enable the UI for testing:
-    `cd onboarding-empty/frontend` \
-    `npm run serve`
-4. Open the link `http://localhost:8080/` and you will see the UI where one can log in and use the To Do notes application.
+# Running Steps
 
-## API Description and Testing
+From the projects root directory:
 
-### Create a User ###
+**Note:** *Required always.*
+
+1. Enter `make up` in your terminal to start the service containers.
+1. Enter `make db.fresh` in your terminal to migrate a fresh DB
+    instance and populate seed data.
+
+    **Note:** *Skip to preserve your existing database.*
+1. App now ready for development / testing...
+1. When finished development / testing enter `make down` in your terminal
+    to power down the docker containers gracefully.
+
+# Access / Verifying
+
+Use the guides below to ensure your local setup was successful and
+for continued usage during development.
+
+## General
+
+All of the apps containers should now be running on your localhost
+<http://127.0.0.1>.
+
+PORTS for each container can be specified in the `.env`.
+
+Refer to the list of all services and their default ports below:
+
+```txt
+NGINX_PORT=9909
+DB_PORT=5432
+REDIS_PORT=6379
 ```
-curl --location --request POST 'http://localhost:8000/api/users' \
---form 'name="name"' \
---form 'username="username"' \
---form 'password="password"'
-```
-**Response**: 201 Created
-```
+
+You may set a `PORT_PREFIX` (empty by default) in the `.env` if needed.
+The `SERVICE_PORT_NUM` in the example below should be replaced with one
+of the values above that you wish to access.
+
+- To access any service use <http://127.0.0.1:{PORT_PREFIX}{SERVICE_PORT_NUM}>.
+
+## Container Specific
+
+A guide for accessing and verifying each of the major containers is
+provided below. Use this to ensure your environment is properly configured
+before beginning development.
+
+**Note**: *For the sections below, replace the port `.env` variables with the
+values that you have set for them.*
+
+## App
+
+The primary Laravel Lumen app container, where the bulk of development will be
+done.
+
+1. Open <http://127.0.0.1:{PORT_PREFIX}{NGINX_PORT}/status> in your web browser,
+    should return:
+
+```json
 {
-    "name": "name",
-    "username": "username",
-    "uuid": "11569e9a-8e2b-446b-bdcf-e19db22efa7d",
-    "updated_at": "2021-09-07T16:02:33.000000Z",
-    "created_at": "2021-09-07T16:02:33.000000Z"
+    "status": "up",
+    "release": "local",
+    "env": "local",
+    "details": "local - be-api-core - {CURRENT_DATE}"
 }
 ```
 
-### Authenticate a user ###
-```
-curl --location --request GET 'http://localhost:8000/api/users?username=username&password=password'
-```
-**Response**: 200 OK
-```
-{
-    "status": "Successfully logged in",
-    "api_key": "random string"
-}
-```
+## Database
 
-### Create a TODO note ### 
-```
-curl --location --request POST 'http://localhost:8000/api/todonotes' \
---header 'Authorization: {api_key}' \
---form 'content="some new content to add"'
-```
-**Response**: 201 Created
-```
-{
-    "userid": "38eaafc2-651c-4062-aff5-b93d194e232d",
-    "content": "some new content to add",
-    "uuid": "c097e79e-10aa-4cef-94e8-1eaa444b86c8",
-    "updated_at": "2021-09-07T16:14:48.000000Z",
-    "created_at": "2021-09-07T16:14:48.000000Z"
-}
-```
+Verify your database connection using a SQL client. The suggested SQL client
+at Scrawlr is **DBeaver** <https://dbeaver.io/>.
 
-### Delete a TODO Note ### 
-**URL Parameter**:
-{id} = ID of the To Do note to be deleted 
-```
-curl --location --request DELETE 'http://localhost:8000/api/todonotes/2e4fc89e-a2e1-4176-a011-b25541f17893' \
---header 'Authorization: {api_key}'
-```
-**Response**: 200 OK 
-`To-Do Note Deleted Successfully`
+### SQL Client Setup
 
-### Mark TODO Note as complete ### 
-**URL Parameter**:
-{id} = ID of the To Do note to be marked as complete
-```
-curl --location --request PUT 'http://localhost:8000/api/todonotes/complete/4d6c3551-8b4f-4553-8632-1f7fef2cd0fb' \
---header 'Authorization: {api_key}'
-```
-**Response**: 200 OK
-```
-{
-    "uuid": "c097e79e-10aa-4cef-94e8-1eaa444b86c8",
-    "userid": "38eaafc2-651c-4062-aff5-b93d194e232d",
-    "content": "Design new feature again",
-    "completion_time": "2021-09-07T16:16:00.235571Z",
-    "created_at": "2021-09-07T16:14:48.000000Z",
-    "updated_at": "2021-09-07T16:16:00.000000Z"
-}
-```
+1. Create a new connection in your SQL client, choose PostgreSQL as the driver.
+1. For "Host" enter `127.0.0.1`.
+1. For "Port" enter `DB_PORT` you have set in your `.env`.
+1. For "Database" enter `DB_DATABASE` you have set in your `.env`.
+1. For "User" enter `DB_USERNAME` you have set in your `.env`.
+1. For "Password" enter the `DB_PASSWORD` you have set in your `.env`.
+1. Test connection (should be successful).
+1. Label the connection as you wish and add.
 
-### Mark TODO Note as incomplete ### 
-**URL Parameter**:
-{id} = ID of the To Do note to be marked as incomplete
-```
-curl --location --request PUT 'http://localhost:8000/api/todonotes/incomplete/4d6c3551-8b4f-4553-8632-1f7fef2cd0fc' \
---header 'Authorization: {api_key}'
-```
-**Response**: 200 OK
-```
-{
-    "uuid": "c097e79e-10aa-4cef-94e8-1eaa444b86c8",
-    "userid": "38eaafc2-651c-4062-aff5-b93d194e232d",
-    "content": "Design new feature again",
-    "completion_time": null,
-    "created_at": "2021-09-07T16:14:48.000000Z",
-    "updated_at": "2021-09-07T16:16:21.000000Z"
-}
-```
+# Composer Commands
 
-### List all TODO notes for logged in user ### 
-```
-curl --location --request GET 'http://localhost:8000/api/todonotes/' \
---header 'Authorization: {api_key}'
-```
-**Response**: 200 OK
-```
-\[ List of all available todo notes for logged in user \]
-```
+## Testing
 
+- `composer test:all` - Run all tests.
+- `composer test:unit` - Run unit tests.
+- `composer test:integration` - Run integration tests.
+- `composer test:path` - Run all tests that are inside a directory.
+    Expects path argument. Example: `composer test:path tests/unit`
+- `composer test:filter` - Filter tests. Often used to run individual tests.
+    Expects filter argument. Example: `composer test:filter MyTest`
 
-### List all TODO notes for arbitrary user ###  
-**URL Parameter**:
-{userid} = User ID of user whose notes to be viewed
-```
-curl --location --request GET 'http://localhost:8000/api/todonotes/199c6377-16c2-44ab-9f7c-3fa8b4602ff1' \
---header 'Authorization: {api_key}'
-```
-**Response**: 200 OK
-```
-\[ List of all available todo notes for given user \]
-```
+# Make Commands
+
+We are utilizing a number of Make commands to help with managing our app
+through Docker.
+For the full list see `Makefile` in the projects root directory.
+
+## General Usage
+
+- `make up` - This builds, (re)creates, starts containers required for
+    testing/running this project.
+- `make down` - Powers off containers and networks created by docker for
+    when finished testing/running this project.
+- `make build` - (Re)builds all services, for if you change a services
+    Dockerfile or the contents of its build directory.
+- `make init` - Similar to `make up` but will (re)build all services
+    before starting the containers.
+- `make remake` - Powers off everything and destroys the volumes, rebuilds
+    and restarts all services.
+    **Note: This will reset your database completely.**
+- `make restart` - Used to restart all services by running `make down` followed
+    by `make up`.
+- `make ps` - List docker containers.
+
+## SSH
+
+- `make app` - SSH into the main application container bash shell.
+- `make db` - SSH into the database container bash shell.
+- `make sql` - SSH into the database container bash shell and login to the
+    app database via PostgreSQL command line.
+- `make redis` - SSH into the redis container bash shell.
+
+## App Shortcuts
+
+- Running php artisan commands is now simple: `./artisan_docker CMD`
+  - Where `CMD` is any artisan command you want to run
+
+**OLD Shortcuts:**
+
+- `make db.fresh` - Drop all tables and re-run all migrations and seed
+    the database.
+- `make db.migrate` - Run all migrations that have no already been run.
+- `make db.seed` - Seed the database.
+- `make db.reset` - Rollback all database migrations.
+- `make worker.queue` - Start processing jobs on the queue as a daemon.
+- `make tests` - Run tests.
+- `make cache-clear` - Clear composer and application cache.
+
+## Test Shortcuts
+
+- `make test` - Run all tests.
+- `make test.unit` - Run unit tests.
+- `make test.integration` - Run integration tests.
+- `make test.path` - Run all tests that are inside a directory.
+    Expects path argument. Example: `make test.path path=MyTest`
+- `make test.filter` - Filter tests. Often used to run individual tests.
+    Expects filter argument. Example: `make test.filter filter=MyTest`
+
+## Log Shortcuts
+
+- `make logs` - Print Docker logs.
+- `make log.watch` - Follow Docker logs.
+- `make log.{log_name}` - You can isolate the following specific logs:
+    {web, app, db}.
+- `make log.{log_name}-watch` - You can isolate and follow the following
+    specific logs: {web, app, db}.

@@ -1,36 +1,30 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
-use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use App\Models\BaseModel;
+use GuzzleHttp\Tests\Stream\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Contracts\Auth\Authenticatable;
-use Illuminate\Auth\Authenticatable as AuthenticableTrait;
-use Illuminate\Support\Str;
 
-class User extends Model implements Authenticatable
+class User extends BaseModel
 {
     // use Authenticatable, Authorizable, HasFactory;
-    use AuthenticableTrait;
+    // use AuthenticableTrait;
     use HasFactory;
 
     protected $table = 'users';
 
     public $incrementing = false;
 
-
     /**
      * The primary key associated with the table.
      */
     protected $primaryKey = 'uuid';
 
-    // /**
-    //  * The data type of the ID.
-    //  */
+    /**
+     * The data type of the ID.
+     */
     protected $keyType = 'uuid';
-
 
     /**
      * The attributes that are mass assignable.
@@ -38,7 +32,7 @@ class User extends Model implements Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'username', 'password'
+        'name', 'email', 'password',
     ];
 
     /**
@@ -47,22 +41,21 @@ class User extends Model implements Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password'
+        'password',
     ];
 
-    // Create a One to many relationship for Users to ToDoNotes
+    // Create a One to many relationship for Users to Notes
     public function todo()
     {
-        return $this->hasMany(ToDoNote::class);
+        return $this->hasMany(Note::class);
     }
-
 
     public static function boot()
     {
         parent::boot();
 
         static::creating(function ($model) {
-            $model->{$model->getKeyName()} = (string) Str::uuid();
+            $model->{$model->getKeyName()} = (string) \Illuminate\Support\Str::uuid();
         });
     }
 }

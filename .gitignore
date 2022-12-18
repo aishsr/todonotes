@@ -1,8 +1,95 @@
-/vendor
-/.idea
-Homestead.json
-Homestead.yaml
+## Project enviroment
 .env
+
+## Project releases/versioning
+.versioning
+GIT_MSG
+
+## Vendor/3rd party libs
+**/node_modules
+**/npm
+**/vendor
+
+## Project testing
+/test/_reports/*
+/test/unit/coverage/*
+/coverage
+junit.xml
 .phpunit.result.cache
-node_modules
-test.html
+
+## Build folders
+.build
+dist
+dist_pack
+
+## Cache and locks
+**/.cache/*
+cghooks.lock
+.stryker-tmp
+
+## Temporary generated files in root
+phpunit-printer.yml
+
+## CI process specific
+.circleci/ci-ops*
+
+## misc.
+Thumbs.db
+/.idea
+/nbproject/
+.DS_Store
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.pem
+
+## Structural
+!.gitkeep
+
+## Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+## Generated assets
+.generated
+src/public
+src/style/.generated/*
+!src/style/.generated/.gitkeep
+src/static/processed_*
+
+## Project logs
+*.log
+/logs/*
+!/logs/.gitkeep
+
+# API Docs
+doctum.phar
+docs/api/build/
+docs/api/cache/
+
+# Manual Docs
+docs/manual/*.pdf
+# Latex
+docs/manual/**/*.aux
+docs/manual/**/*.log
+docs/manual/**/*.out
+docs/manual/**/*.synctex.gz
+docs/manual/**/*.fdn
+docs/manual/**/*.fld
+docs/manual/**/*.flg
+docs/manual/**/*.glg
+docs/manual/**/*.glo
+docs/manual/**/*.gls
+docs/manual/**/*.ist
+docs/manual/**/*.lof
+docs/manual/**/*.lot
+docs/manual/**/*.toc
+docs/manual/**/*.synctex(busy)
+
+# Tools
+.php_cs.cache
+.php-cs-fixer.cache

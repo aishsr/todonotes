@@ -1,17 +1,16 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Model;
+use App\Models\BaseModel;
+use GuzzleHttp\Tests\Stream\Str;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Support\Str;
 
-
-class ToDoNote extends Model
+class Note extends BaseModel
 {
     use HasFactory;
 
-    protected $table = 'to_do_notes';
+    protected $table = 'notes';
 
     /**
      * The primary key associated with the table.
@@ -23,8 +22,15 @@ class ToDoNote extends Model
      */
     protected $keyType = 'uuid';
 
+    /**
+     * Whether this table is incrementing
+     */
     public $incrementing = false;
 
+    /**
+     * created-at and updated_at timestamps
+     */
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
@@ -32,7 +38,7 @@ class ToDoNote extends Model
      * @var array
      */
     protected $fillable = [
-        'userid', 'content', 'completion_time'
+        'userid', 'content', 'completion_time', 'created_at', 'updated_at',
     ];
 
     /**
@@ -42,7 +48,7 @@ class ToDoNote extends Model
      */
     protected $hidden = [];
 
-    // Create a One to One relationship for ToDoNote to User
+    // Create a One to One relationship for Note to User
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -53,7 +59,7 @@ class ToDoNote extends Model
         parent::boot();
 
         static::creating(function ($model) {
-            $model->{$model->getKeyName()} = (string) Str::uuid();
+            $model->{$model->getKeyName()} = (string) \Illuminate\Support\Str::uuid();
         });
     }
 }

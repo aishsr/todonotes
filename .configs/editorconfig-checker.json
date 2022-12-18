@@ -1,0 +1,9 @@
+{
+    "Exclude": [
+        ".cache",
+        "docs",
+        "vendor",
+        ".git",
+        "doctum.phar"
+    ]
+}

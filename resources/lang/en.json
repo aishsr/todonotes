@@ -1,0 +1,6 @@
+{
+  "error.400": "Bad Request",
+  "error.401": "Missing or incorrect authentication credentials",
+  "error.404": "Not found",
+  "error.500": "Internal Error"
+}

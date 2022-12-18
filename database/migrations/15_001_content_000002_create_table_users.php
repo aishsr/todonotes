@@ -1,11 +1,10 @@
-<?php
+<?php declare(strict_types = 1);
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class CreateUsersTable extends Migration
-{
+return new class() extends Migration {
     /**
      * Run the migrations.
      *
@@ -17,9 +16,10 @@ class CreateUsersTable extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->uuid('uuid')->primary();
             $table->string('name');
-            $table->string('username')->unique();
-            $table->string('password',255);
-            $table->string('api_key')->nullable();
+            $table->string('email')->string('email')->unique();
+            $table->timestamp('email_verified_at')->nullable();
+            $table->string('password');
+            $table->rememberToken();
             $table->timestamps();
         });
     }
@@ -33,4 +33,4 @@ class CreateUsersTable extends Migration
     {
         Schema::dropIfExists('users');
     }
-}
+};

@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+
+<!--
+    PHP Code Sniffer:
+    https://github.com/squizlabs/PHP_CodeSniffer
+
+    Configuration Options Usage:
+    https://github.com/squizlabs/PHP_CodeSniffer/wiki/Annotated-Ruleset
+
+-->
+
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="PHP_CodeSniffer" xsi:noNamespaceSchemaLocation="phpcs.xsd">
+    <description>Custom Scrawlr code standard.</description>
+
+    <file>.</file>
+
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/storage/*</exclude-pattern>
+    <exclude-pattern>*/.cache/*</exclude-pattern>
+
+    <arg name="basepath" value="."/>
+    <arg name="colors"/>
+    <arg name="parallel" value="75"/>
+    <arg value="np"/>
+
+    <!-- Don't hide tokenizer exceptions -->
+    <rule ref="Internal.Tokenizer.Exception">
+        <type>error</type>
+    </rule>
+
+    <!-- Pascal Case Class names -->
+    <!-- https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/Squiz/Sniffs/Classes/ValidClassNameSniff.php -->
+    <!-- ? Valid: MyClass, User -->
+    <!-- ? Not Valid: myClass, user -->
+    <rule ref="Squiz.Classes.ValidClassName.NotCamelCaps"/>
+
+    <!-- Cammel case function names -->
+    <!-- https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/Squiz/Sniffs/NamingConventions/ValidFunctionNameSniff.php -->
+    <!-- ? Valid: foo(), FOO(), fooBar(), foo() -->
+    <!-- ? Not Valid: Foo(), foo_bar() -->
+    <rule ref="Squiz.NamingConventions.ValidFunctionName">
+        <exclude name="Squiz.NamingConventions.ValidFunctionName.PrivateNoUnderscore"/>
+    </rule>
+
+    <!-- Cammel case variables -->
+    <!-- https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/Squiz/Sniffs/NamingConventions/ValidVariableNameSniff.php -->
+    <!-- ? Valid: $foo, $FOO, $fooBar, $_foo -->
+    <!-- ? Not Valid: $Foo, $foo_bar -->
+    <rule ref="Squiz.NamingConventions.ValidVariableName"/>
+
+</ruleset>

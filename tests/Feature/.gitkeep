@@ -1,0 +1,3 @@
+# TODO: Remove this file once we have some feature tests.
+
+Endpoint based for good inputs we want to ensure work / for bad inputs want to ensure we are protected against.

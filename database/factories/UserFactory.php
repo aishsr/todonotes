@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 namespace Database\Factories;
 
@@ -25,7 +25,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
-            'username' => $this->faker->userName,
+            'email' =>  $this->faker->unique()->safeEmail,
             'password' => Hash::make('password'),
         ];
     }
