@@ -27,7 +27,6 @@ class ValidationHelper
 
         if ($validator->fails()) {
             $errors = $validator->errors();
-            dd($errors);
             $message = 'The response spec failed to validate.';
 
             throw new Exception($message);

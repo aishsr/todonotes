@@ -2,9 +2,6 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use App\Helpers\LogHelper;
-use Illuminate\Support\Facades\Log;
-
 (new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
     dirname(__DIR__),
 ))->bootstrap();
@@ -72,10 +69,6 @@ $app->middleware([
     App\Http\Middleware\EnforceBaseResponseMiddleware::class,
 ]);
 
-// $app->routeMiddleware([
-//     'jwt' => App\Http\Middleware\JWTMiddleware::class,
-// ]);
-
 $app->routeMiddleware([
     'auth' => App\Http\Middleware\Authenticate::class,
 ]);
@@ -91,7 +84,6 @@ $app->routeMiddleware([
  * |
  */
 
-// $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Tymon\JWTAuth\Providers\LumenServiceProvider::class);
 
