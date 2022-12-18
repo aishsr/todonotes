@@ -1,7 +1,7 @@
 {
-    "name": "scrawlr/be-api-core",
+    "name": "aishsr/todonotes",
     "version": "v0.1.22",
-    "description": "scrawlr/be-api-core",
+    "description": "aishsr/todonotes",
     "keywords": [
         "php",
         "lavavel",
@@ -12,12 +12,8 @@
     "license": "MIT",
     "authors": [
         {
-            "name": "Matija Boban",
-            "email": "matija@scrawlr.com"
-        },
-        {
-            "name": "Jonathan Shahen",
-            "email": "jonathan.shahen@scrawlr.com"
+            "name": "Aishwarya Srinivas",
+            "email": "aishwarya-sri99@hotmail.com"
         }
     ],
     "require": {
@@ -54,12 +50,7 @@
             "App\\": "app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Migrations\\": "database/migrations/",
-            "Database\\Seeders\\": "database/seeders/",
-            "Scrawlr\\Http\\Requests\\": "app/Http/Requests/",
-            "Scrawlr\\Providers\\": "app/Providers",
-            "Scrawlr\\Services\\": "app/Services",
-            "Scrawlr\\Traits\\": "app/Traits/",
-            "Scrawlr\\Transforms\\Resources\\": "app/Transforms/Resources/"
+            "Database\\Seeders\\": "database/seeders/"
         }
     },
     "autoload-dev": {
@@ -68,21 +59,6 @@
         }
     },
     "scripts": {
-        "cci:generate": [
-            "make -f vendor/scrawlr/structural-circleci-config/makefile -e path__source=vendor/scrawlr/structural-circleci-config/src"
-        ],
-        "cci:generate:on-change": [
-            "if [ -n \"$(git diff --cached --stat $(find .circleci/ -type f -iname *.yml -and ! -name \"config.yml\"))\" ]; then composer cci:generate; fi"
-        ],
-        "cci:generate:on-missing": [
-            "if [ ! -f .circleci/config.yml ]; then composer cci:generate; fi"
-        ],
-        "cci:validate": [
-            "if [ ! $CIRCLECI ]; then circleci config validate --skip-update-check; fi"
-        ],
-        "cci:install:php-cs-fixer": [
-            "composer install --working-dir=tools/php-cs-fixer"
-        ],
         "clean:cache": [
             "rm -rf .cache/*"
         ],

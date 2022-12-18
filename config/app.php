@@ -15,7 +15,7 @@ return [
      * framework needs to place the application's name in a notification or
      * any other location as required by the application or its packages.
      */
-    'name' => env('APP_NAME', 'Scrawlr API'),
+    'name' => env('APP_NAME', 'To Do Notes'),
 
     /**
      * Application Environment
@@ -42,7 +42,7 @@ return [
      * the Artisan command line tool. You should set this to the root of
      * your application so that it is used when running Artisan tasks.
      */
-    'url' => env('APP_URL', 'http://base-lumen.ude.local.scrawlr.systems'),
+    'url' => env('APP_URL', 'http://127.0.0.1:9909'),
 
     /**
      * Application Timezone

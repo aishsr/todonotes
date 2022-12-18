@@ -2,11 +2,9 @@
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/3e79f811702828a15c4f/test_coverage)](https://codeclimate.com/repos/5fbba591e9717c26f500064f/test_coverage)
 
-# be-api-core
+# todonotes
 
-Core Scrawlr API project. Services the front end Scrawlr app via
-RESTFUL API request/responses according to API spec found here:
-<https://scrawlr.stoplight.io/docs/scrawlr-api-spec/YXBpOjc1MDEz-scrawlr-core-api>.
+To Do Notes API project.
 
 # Install Steps
 
@@ -81,14 +79,14 @@ done.
     "status": "up",
     "release": "local",
     "env": "local",
-    "details": "local - be-api-core - {CURRENT_DATE}"
+    "details": "local - todonotes - {CURRENT_DATE}"
 }
 ```
 
 ## Database
 
 Verify your database connection using a SQL client. The suggested SQL client
-at Scrawlr is **DBeaver** <https://dbeaver.io/>.
+at is **DBeaver** <https://dbeaver.io/>.
 
 ### SQL Client Setup
 

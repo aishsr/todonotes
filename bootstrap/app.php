@@ -57,9 +57,6 @@ $app->singleton(Illuminate\Contracts\Console\Kernel::class, App\Console\Kernel::
  */
 
 $app->configure('app');
-$app->configure('scrawlr/jwt');
-$app->configure('scrawlr/testing');
-$app->configure('scrawlr/elasticsearch');
 
 /*
  * |--------------------------------------------------------------------------

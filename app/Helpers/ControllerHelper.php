@@ -31,7 +31,6 @@ class ControllerHelper
 
             return $resp;
         }
-        dd($err);
         $resp = $controller->getErrorResponse($method)[$defaultStatusCode];
 
         return $resp;

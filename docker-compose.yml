@@ -11,7 +11,7 @@ services:
         uid: ${APP_USER_ID:-1000}
       context: ./
       dockerfile: .docker/app/Dockerfile
-    container_name: ${APP_NAME:-be-api-core}_app
+    container_name: ${APP_NAME:-todonotes}_app
     restart: unless-stopped
     depends_on:
       - database
@@ -28,7 +28,7 @@ services:
     networks:
       - scrw_internal
     environment:
-      - PHP_IDE_CONFIG="serverName=be-api-core"
+      - PHP_IDE_CONFIG="serverName=todonotes"
       - DB_CONNECTION=pgsql
       - DB_HOST=${DB_HOST:-database}
       - DB_DATABASE=${DB_DATABASE:-scrw_db}
@@ -42,7 +42,7 @@ services:
         uid: ${APP_USER_ID:-1000}
       context: ./
       dockerfile: .docker/app/Dockerfile
-    container_name: ${APP_NAME:-be-api-core}_worker
+    container_name: ${APP_NAME:-todonotes}_worker
     restart: unless-stopped
     depends_on:
       - database
@@ -62,7 +62,7 @@ services:
 
   nginx:
     image: nginx:alpine
-    container_name: ${APP_NAME:-be-api-core}_nginx
+    container_name: ${APP_NAME:-todonotes}_nginx
     restart: unless-stopped
     ports:
       - ${PORT_PREFIX:-}${NGINX_PORT:-9909}:80
@@ -74,7 +74,7 @@ services:
       - scrw_external
 
   redis:
-    container_name: ${APP_NAME:-be-api-core}_redis
+    container_name: ${APP_NAME:-todonotes}_redis
     build:
       context: .
       dockerfile: .docker/redis/Dockerfile
@@ -93,7 +93,7 @@ services:
       - redis:/var/lib/redis
 
   database:
-    container_name: ${APP_NAME:-be-api-core}_db
+    container_name: ${APP_NAME:-todonotes}_db
     build:
       context: .
       dockerfile: .docker/postgres/Dockerfile
@@ -114,7 +114,7 @@ services:
 
   sql-adapter:
     image: prometheuscommunity/postgres-exporter:latest
-    container_name: ${APP_NAME:-be-api-core}_sql-adapter
+    container_name: ${APP_NAME:-todonotes}_sql-adapter
     environment:
       DATA_SOURCE_NAME: postgresql://${DB_USERNAME:-scrw_db_user}:${DB_PASSWORD:-scrw_db_password}@database:5432/${DB_DATABASE:-scrw_db}?sslmode=disable
     ports:
