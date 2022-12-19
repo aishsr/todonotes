@@ -10,6 +10,9 @@ class Note extends BaseModel
 {
     use HasFactory;
 
+    /**
+     * Table name in Postgres
+     */
     protected $table = 'notes';
 
     /**
@@ -28,7 +31,7 @@ class Note extends BaseModel
     public $incrementing = false;
 
     /**
-     * created-at and updated_at timestamps
+     * To auto-fill created-at and updated_at timestamps
      */
     public $timestamps = true;
 
@@ -48,7 +51,11 @@ class Note extends BaseModel
      */
     protected $hidden = [];
 
-    // Create a One to One relationship for Note to User
+    /**
+     * Create a Many to One relationship for Note to User
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function user()
     {
         return $this->belongsTo(User::class);

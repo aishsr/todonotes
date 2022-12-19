@@ -12,10 +12,7 @@ use App\Http\Responses\v1\Note\NotePaginatedResponse;
 use App\Http\Responses\v1\Note\NoteResponse;
 use Exception;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\ValidationException;
 use Tests\Unit\UnitTestCase;
-
-use function PHPUnit\Framework\assertEquals;
 
 /**
  * Test the NoteController class methods.
@@ -132,17 +129,17 @@ class NoteControllerMethodsSmallTest extends UnitTestCase
         // store
         $request = TestHelper::generateRequestFromArray(['content' => 'Content for testing']);
         $response = self::$controllerClass->store($request);
-        $this->assertEquals(201, $response->getStatusCode(), 'Incorrect status code received forstore');
+        $this->assertEquals(201, $response->getStatusCode(), 'Incorrect status code received for store');
 
         // update - mark note as complete
         $request = TestHelper::generateRequestFromArray(['makeComplete' => 'true']);
         $response = self::$controllerClass->update($request, $noteId);
-        $this->assertEquals(200, $response->getStatusCode(), 'Incorrect status code received for update');
+        $this->assertEquals(200, $response->getStatusCode(), 'Incorrect status code received for updating note as complete');
 
         // update - mark note as incomplete
         $request = TestHelper::generateRequestFromArray(['makeComplete' => 'false']);
         $response = self::$controllerClass->update($request, $noteId);
-        $this->assertEquals(200, $response->getStatusCode(), 'Incorrect status code received for update');
+        $this->assertEquals(200, $response->getStatusCode(), 'Incorrect status code received for updating note as incomplete');
 
         // update - mark note as incomplete
         $request = TestHelper::generateRequestFromArray([]);
@@ -176,13 +173,13 @@ class NoteControllerMethodsSmallTest extends UnitTestCase
     }
 
     /**
-     * @testdox Test that item not found exception is returned if non existent ID is given
+     * @testdox Test that item not found/error exception is returned if non existent ID is given
      *
      * @return void
      */
     public function testItemNotFoundExceptionIsReturned(): void
     {
-        // pick random note ID for testing
+        // Non existent ID for testing
         $noteId = 'ffffffff-0000-0000-ffff-000000000001';
 
         // show
@@ -193,7 +190,7 @@ class NoteControllerMethodsSmallTest extends UnitTestCase
         // update
         $request = TestHelper::generateRequestFromArray(['makeComplete' => 'false']);
         $response = self::$controllerClass->update($request, $noteId);
-        $this->assertEquals(404, $response->getStatusCode(), 'Incorrect status code received for update');
+        $this->assertEquals(500, $response->getStatusCode(), 'Incorrect status code received for update');
 
         // delete
         $request = TestHelper::generateRequestFromArray([]);

@@ -18,13 +18,6 @@ return [
     'default' => env('FILESYSTEM_DRIVER', 'local'),
 
     /**
-     * Default Cloud Filesystem Disk
-     *
-     * Accepted Values: [s3]
-     */
-    'cloud' => env('FILESYSTEM_CLOUD', 's3'),
-
-    /**
      * Each of the Filesystem Disks available.
      * Supported Drivers: [local, ftp, s3, rackspace]
      */
@@ -49,16 +42,6 @@ return [
         'seed_data' => [
             'driver' => 'local',
             'root' => base_path('database/data'),
-        ],
-
-        's3' => [
-            'driver' => 's3',
-            'key' => 'test',
-            'secret' => 'test',
-            'region' => env('AWS_DEFAULT_REGION'),
-            'bucket' => 'my-bucket',
-            'endpoint' => 'http://localhost:4566',
-            'use_path_style_endpoint' => false,
         ],
     ],
 ];

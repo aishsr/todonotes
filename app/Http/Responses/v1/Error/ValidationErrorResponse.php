@@ -6,7 +6,6 @@ namespace App\Http\Responses\v1\Error;
 
 use App\Http\Responses\v1\BaseResponse;
 
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class ValidationErrorResponse extends BaseResponse
@@ -42,8 +41,8 @@ class ValidationErrorResponse extends BaseResponse
      * Format internal data into required API specification.
      *
      * @param ValidationException $data Internal data that requires formatting
-     * @param array|null $validatedRequest IGNORED
-     * @param mixed $valException
+     * @param array|null $validatedRequest IGNORED in this reesponse class
+     * @param mixed $valException validation exception to throw
      *
      * @return mixed
      */

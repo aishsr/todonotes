@@ -8,21 +8,21 @@ use Exception;
 use Illuminate\Support\ItemNotFoundException;
 use Ramsey\Uuid\Uuid;
 
-class NoteService extends BaseService
+class NoteService
 {
     /**
      * Return a list of notes
-     *     *
+     *
      * @return array
      */
     public function index(): array
     {
-        $dbResults = DB::table('notes')->get()->all();
-        $data = array_map(function ($item) {
-            return (array)$item;
-        }, $dbResults);
-
-        return ['data' => $data];
+        return
+        [
+            'data' => array_map(function ($item) {
+                return (array)$item;
+            }, DB::table('notes')->get()->all()),
+        ];
     }
 
     /**
@@ -63,9 +63,7 @@ class NoteService extends BaseService
     public function show(string $id): array
     {
         try {
-            $dbResult = DB::table('notes')->where('notes.uuid', '=', $id)->get()->firstOrFail();
-
-            return ['data' =>(array)$dbResult];
+            return ['data' =>(array) DB::table('notes')->where('notes.uuid', '=', $id)->get()->firstOrFail()];
         } catch (ItemNotFoundException $e) {
             throw new Exception('The provided ID does not exist', 404);
         }
@@ -90,21 +88,18 @@ class NoteService extends BaseService
         }
 
         try {
-            DB::table('notes')->where('notes.uuid', '=', $id)->get()->firstOrFail();
             DB::table('notes')
                 ->where('notes.uuid', '=', $id)
                 ->update(['notes.completion_time' => $timestamp]);
 
             return $this->show($id);
-        } catch (ItemNotFoundException $e) {
-            throw new Exception('The provided ID does not exist', 404);
         } catch (Exception $e) {
             throw new Exception('Error in updating note', 500);
         }
     }
 
     /**
-     * Delete a note
+     * Delete a note. Check that the note exists first, then delete
      *
      * @param string $id ID of the note to delete
      *

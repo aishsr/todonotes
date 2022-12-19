@@ -3,11 +3,8 @@
 namespace Database\Factories;
 
 use App\Models\Note;
-use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Ramsey\Uuid\Rfc4122\UuidV4;
 use Ramsey\Uuid\Uuid;
 
 class NoteFactory extends Factory

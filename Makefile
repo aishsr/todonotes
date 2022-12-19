@@ -24,8 +24,6 @@ db: FORCE
 	docker-compose exec database bash
 sql: FORCE
 	docker-compose exec database bash -c 'psql -d $$POSTGRES_DB -U $$POSTGRES_USER'
-redis: FORCE
-	docker-compose exec redis redis-cli
 
 laravel-install:
 	docker-compose exec app composer create-project --prefer-dist laravel/laravel .

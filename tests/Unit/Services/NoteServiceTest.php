@@ -46,11 +46,11 @@ class NoteServiceTest extends UnitTestCase
         $results = static::$serviceClass->index();
         foreach ($results['data'] as $row) {
             $this->assertTrue(array_key_exists('uuid', $row), 'Missing key uuid');
-            $this->assertTrue(array_key_exists('content', $row), 'Missicreated_atng key content');
+            $this->assertTrue(array_key_exists('content', $row), 'Missing key content');
             $this->assertTrue(array_key_exists('userid', $row), 'Missing key userid');
             $this->assertTrue(array_key_exists('completion_time', $row), 'Missing key completion_time');
             $this->assertTrue(array_key_exists('updated_at', $row), 'Missing key updated_at');
-            $this->assertTrue(array_key_exists('created_at', $row), 'Missing key ');
+            $this->assertTrue(array_key_exists('created_at', $row), 'Missing key created_at');
         }
     }
 
@@ -66,11 +66,11 @@ class NoteServiceTest extends UnitTestCase
 
         $result = static::$serviceClass->show($noteId);
         $this->assertTrue(array_key_exists('uuid', $result['data']), 'Missing key uuid');
-        $this->assertTrue(array_key_exists('content', $result['data']), 'Missicreated_atng key content');
+        $this->assertTrue(array_key_exists('content', $result['data']), 'Missing key content');
         $this->assertTrue(array_key_exists('userid', $result['data']), 'Missing key userid');
         $this->assertTrue(array_key_exists('completion_time', $result['data']), 'Missing key completion_time');
         $this->assertTrue(array_key_exists('updated_at', $result['data']), 'Missing key updated_at');
-        $this->assertTrue(array_key_exists('created_at', $result['data']), 'Missing key ');
+        $this->assertTrue(array_key_exists('created_at', $result['data']), 'Missing key created_at');
     }
 
     /**
@@ -95,10 +95,7 @@ class NoteServiceTest extends UnitTestCase
      */
     public function testNoteIsUpdatedAsComplete(): void
     {
-        // pick random note
-        $noteId = DB::table('notes')->get()->random()->uuid;
-
-        $result = static::$serviceClass->update(['makeComplete' => 'true'], $noteId);
+        $result = static::$serviceClass->update(['makeComplete' => 'true'], DB::table('notes')->get()->random()->uuid);
         $this->assertNotNull($result['data']['completion_time'], 'Completion time has not been updated');
     }
 
@@ -109,10 +106,7 @@ class NoteServiceTest extends UnitTestCase
      */
     public function testNoteIsUpdatedAsNotComplete(): void
     {
-        // pick random note
-        $noteId = DB::table('notes')->get()->random()->uuid;
-
-        $result = static::$serviceClass->update(['makeComplete' => 'false'], $noteId);
+        $result = static::$serviceClass->update(['makeComplete' => 'false'], DB::table('notes')->get()->random()->uuid);
         $this->assertNull($result['data']['completion_time'], 'Completion time has not been updated');
     }
 

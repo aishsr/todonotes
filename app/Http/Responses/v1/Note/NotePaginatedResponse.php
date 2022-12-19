@@ -5,8 +5,6 @@ namespace App\Http\Responses\v1\Note;
 use App\Http\Responses\v1\BaseResponse;
 use App\Helpers\ValidationHelper;
 
-use Illuminate\Support\Facades\Log;
-
 class NotePaginatedResponse extends BaseResponse
 {
     /**

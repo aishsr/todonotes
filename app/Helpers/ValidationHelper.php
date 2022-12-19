@@ -8,28 +8,23 @@ use App\Rules\SortRule;
 
 use Exception;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Facades\Log;
 
 class ValidationHelper
 {
     /**
      * Validate the response spec, filter out anything not in it
      *
-     * @param array $data
-     * @param array $responseSpec
-     * @param mixed $formattedResponse
+     * @param array $formattedResponse Formatted data to send as response
+     * @param array $responseSpec Response body validation rules
      *
      * @return array
      */
-    public static function filterValidateData($formattedResponse, $responseSpec)
+    public static function filterValidateData(array $formattedResponse, array $responseSpec): array
     {
         $validator = Validator::make($formattedResponse, $responseSpec);
 
         if ($validator->fails()) {
-            $errors = $validator->errors();
-            $message = 'The response spec failed to validate.';
-
-            throw new Exception($message);
+            throw new Exception('The response spec failed to validate.');
         }
 
         return $validator->validated();

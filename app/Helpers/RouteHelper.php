@@ -2,8 +2,6 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Facades\Log;
-
 class RouteHelper
 {
     public $filename;
@@ -17,9 +15,9 @@ class RouteHelper
     /**
      * Router constructor.
      *
-     * @param \Laravel\Lumen\Application $app
+     * @param \Laravel\Lumen\Application $app Main Laravel Application
      * @param mixed $router
-     * @param mixed $attributes
+     * @param mixed $attributes Route attributes such as namespace, prefix, middleware, ...
      */
     public function __construct($router, $attributes, string $filename)
     {
@@ -31,7 +29,7 @@ class RouteHelper
     /**
      * Helper function to create a new route
      *
-     * @param object $router With the correct middleware, prefix, etc
+     * @param object $router With the correct middleware, prefix, etc.
      * @param array $route Array with keys: method (STRING), uri (string), action (array|string)
      * @param string $file File name
      */
@@ -44,38 +42,6 @@ class RouteHelper
                 $uri = trim($this->attributes['prefix'], '/') . '/' . trim($uri, '/');
             }
         }
-
-        if (is_callable($route['action'])) {
-            $action = '{Function Closure}';
-        } else {
-            $action = json_encode($route['action']);
-        }
         $this->router->addRoute($route['method'], $route['uri'], $route['action']);
-    }
-
-    /**
-     * Helper function to log at the start of the route file
-     *
-     * @param object $router With the correct middleware, prefix, etc
-     * @param string $file File name
-     *
-     * @return int
-     */
-    public function logStartRoutes()
-    {
-        $this->initialRouteCount = count($this->router->getRoutes());
-    }
-
-    /**
-     * Helper function to log at the end of the route file
-     *
-     * @param object $router With the correct middleware, prefix, etc
-     * @param int $initialRouteCount Current count before creating new routes
-     * @param string $file File name
-     */
-    public function logEndRoutes()
-    {
-        $finalRouteCount = count($this->router->getRoutes());
-        $routesCreated =  $finalRouteCount - $this->initialRouteCount;
     }
 }

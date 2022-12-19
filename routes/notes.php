@@ -7,8 +7,6 @@ use App\Helpers\ValidationHelper;
 
 /**
  * Note Routes
- *
- * This contains all the routes under `notes`.
  */
 $attributes = [
     'prefix' => 'notes',
@@ -18,7 +16,6 @@ $router->group(
     $attributes,
     function () use ($router, $attributes) {
         $rh = new RouteHelper($router, $attributes, __FILE__);
-        $rh->logStartRoutes();
 
         $rh->addRoute([
             'method' => 'GET',
@@ -64,7 +61,5 @@ $router->group(
                 'uses' => 'NoteController@delete',
             ],
         ]);
-
-        $rh->logEndRoutes();
     }
 );

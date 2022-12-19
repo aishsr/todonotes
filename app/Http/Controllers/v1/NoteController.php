@@ -5,17 +5,12 @@ declare(strict_types = 1);
 namespace App\Http\Controllers\v1;
 
 use App\Helpers\ControllerHelper;
-use App\Http\Responses\v1\BaseResponse;
 use App\Services\NoteService;
-use App\Http\Requests\v1\BaseRequest;
-use App\Http\Requests\v1\Note\IndexRequest;
-use App\Http\Requests\v1\Note\ShowRequest;
 use App\Http\Requests\v1\Note\StoreRequest;
 use App\Http\Requests\v1\Note\UpdateRequest;
 use App\Http\Responses\v1\Error\MessageResponse;
 use App\Http\Responses\v1\Note\NotePaginatedResponse;
 use App\Http\Responses\v1\Note\NoteResponse;
-use App\Services\BaseService;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -24,7 +19,7 @@ use Exception;
  */
 class NoteController extends BaseController
 {
-    protected NoteService $service;
+    private NoteService $service;
 
     /**
      * Return the BaseRequest or null associated with controller method.
@@ -133,7 +128,7 @@ class NoteController extends BaseController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in the database.
      *
      * @param Request $request
      *

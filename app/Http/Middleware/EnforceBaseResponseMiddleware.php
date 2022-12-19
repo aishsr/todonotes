@@ -6,8 +6,8 @@ namespace App\Http\Middleware;
 
 use App\Http\Responses\v1\BaseResponse;
 
-use Illuminate\Support\Facades\Log;
 use Closure;
+use Exception;
 
 class EnforceBaseResponseMiddleware
 {
@@ -24,7 +24,7 @@ class EnforceBaseResponseMiddleware
         $response = $next($request);
 
         if (! ($response instanceof BaseResponse)) {
-            Log::error('Wrong return class: "' . get_class($response) . '" != "' . BaseResponse::class . '"');
+            throw new Exception('Wrong return class: "' . get_class($response) . '" != "' . BaseResponse::class . '"');
         }
 
         return $response;

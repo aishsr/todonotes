@@ -6,8 +6,6 @@ use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
-    // phpcs:disable SlevomatCodingStandard.TypeHints.PropertyTypeHint.MissingAnyTypeHint
-
     /**
      * A list of the exception types that should not be reported.
      */
@@ -31,8 +29,6 @@ class Handler extends ExceptionHandler
     {
         parent::report($exception);
     }
-
-    // phpcs:disable SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingAnyTypeHint
 
     /**
      * Render an exception into an HTTP response.

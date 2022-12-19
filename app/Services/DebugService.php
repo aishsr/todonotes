@@ -4,7 +4,7 @@ namespace App\Services;
 
 use Carbon\Carbon;
 
-class DebugService extends BaseService
+class DebugService
 {
     /**
      * getIndexResults
@@ -32,20 +32,5 @@ class DebugService extends BaseService
             'status' => 'up',
             'release' => config('app.release'),
         ];
-    }
-
-    /**
-     * getIndexResults
-     *
-     * @param array $validated
-     *
-     * @return array
-     */
-    public function getXDebugPage()
-    {
-        ob_start();
-        \xdebug_info();
-
-        return ob_get_clean();
     }
 }

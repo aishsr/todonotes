@@ -6,8 +6,6 @@ namespace App\Http\Controllers\v1;
 
 use Laravel\Lumen\Routing\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\Log;
 use InvalidArgumentException;
 
 use App\Http\Requests\BaseRequest;
@@ -71,7 +69,7 @@ abstract class BaseController extends Controller
     }
 
     /**
-     * Validate the request by its rules.
+     * Get the validation rules from the endpoint's request class and validate the request data
      *
      * @param Request $request
      * @param string $action
@@ -80,13 +78,7 @@ abstract class BaseController extends Controller
      */
     final protected function validateRequest(Request $request, $action)
     {
-        $rules = static::getRequest($action);
-
-        if (is_null($rules)) {
-            $rules = [];
-        } else {
-            $rules = static::getRequest($action)->rules();
-        }
+        $rules = is_null(static::getRequest($action)) ? [] : static::getRequest($action)->rules();
         $validated = $this->validate($request, $rules);
 
         return $validated;

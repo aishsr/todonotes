@@ -3,7 +3,6 @@
 namespace App\Http\Responses\v1;
 
 use Illuminate\Http\Response;
-use Illuminate\Http\Request;
 use App\Helpers\ValidationHelper;
 
 /**
@@ -103,12 +102,7 @@ abstract class BaseResponse extends Response
     public function getResponseData($inputData, $validatedRequest)
     {
         $this->data = $inputData;
-        $formattedResponse = $this->formatData($inputData, $validatedRequest);
-
-        // Skip validation for html
-        if ('text/html' == $this->getContentType()) {
-            return $formattedResponse;
-        }
+        $formattedResponse = $this->formatData($this->data, $validatedRequest);
 
         return ValidationHelper::filterValidateData($formattedResponse, static::responseSpec($validatedRequest));
     }

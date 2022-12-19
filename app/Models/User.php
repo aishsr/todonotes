@@ -8,12 +8,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class User extends BaseModel
 {
-    // use Authenticatable, Authorizable, HasFactory;
-    // use AuthenticableTrait;
     use HasFactory;
 
+    /**
+     * Table name in Postgres
+     */
     protected $table = 'users';
 
+    /**
+     * Whether this table is incrementing
+     */
     public $incrementing = false;
 
     /**

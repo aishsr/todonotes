@@ -4,8 +4,6 @@ namespace App\Http\Responses;
 
 use App\Http\Responses\v1\BaseResponse;
 
-use Illuminate\Support\Facades\Log;
-
 class StatusResponse extends BaseResponse
 {
     /**

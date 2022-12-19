@@ -1,7 +1,6 @@
 <?php declare(strict_types = 1);
 
 use Carbon\Carbon;
-use Illuminate\View\View;
 use App\Helpers\RouteHelper;
 
 /*
@@ -22,12 +21,9 @@ config(
     | Status Route
     |--------------------------------------------------------------------------
     |
-    | Notes: TBA
-    |
  */
 
 $rh = new RouteHelper($router, [], __FILE__);
-$rh->logStartRoutes();
 
 $rh->addRoute([
     'method' => 'GET',
@@ -66,15 +62,4 @@ if ('local' == config('app.env')) {
             return view('errors.error');
         },
     ]);
-
-    $rh->addRoute([
-        'method' => 'GET',
-        'uri' => '/xdebug',
-        'action' => [
-            'as' => 'status.xdebug',
-            'uses' => 'DebugController@xdebug',
-        ],
-    ]);
 }
-
-$rh->logEndRoutes();

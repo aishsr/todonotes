@@ -9,6 +9,7 @@ use App\Models\User;
 
 /**
  * Authentication requests for users logging in
+ * TODO(aish): needs rework and utilise JWT authentication
  */
 class Authenticate
 {
@@ -29,15 +30,14 @@ class Authenticate
 
         // get user
         if ($username && $api_key) {
-            $user = User::where('api_key', $api_key)->first();
-
-            if (! empty($user)) {
+            try {
+                $user = User::where('api_key', $api_key)->first();
                 $request->auth = $user->uuid;
 
                 return $next($request);
+            } catch (\Exception $e) {
+                return response()->json(['error' => 'Unauthorized'], 401);
             }
-
-            return response()->json(['error' => 'Unauthorized'], 401);
         }
 
         return response()->json(['error' => 'Please login again'], 401);

@@ -5,8 +5,6 @@ namespace App\Http\Responses\v1\Note;
 use App\Http\Responses\v1\BaseResponse;
 use App\Helpers\ValidationHelper;
 
-use Illuminate\Support\Facades\Log;
-
 class NoteResponse extends BaseResponse
 {
     /**
@@ -43,7 +41,7 @@ class NoteResponse extends BaseResponse
     /**
      * Format internal data into required API specification.
      *
-     * @param mixed $data Internal data that requires formatting
+     * @param array $data Internal data that requires formatting
      * @param array|null $validatedRequest Validated request values from the user
      *
      * @return mixed

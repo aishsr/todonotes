@@ -2,15 +2,20 @@
 
 [![Test Coverage](https://api.codeclimate.com/v1/badges/3e79f811702828a15c4f/test_coverage)](https://codeclimate.com/repos/5fbba591e9717c26f500064f/test_coverage)
 
-# todonotes
+# To Do Notes - API
 
-To Do Notes API project.
+A simple API to perform the following actions:
+1. `GET http://127.0.0.1:9909/notes/` - Get all notes
+1. `GET http://127.0.0.1:9909/notes/{identifier}` - Get a single note with Author ID, content, completion time, and its created and updated at timestamps
+1. `POST http://127.0.0.1:9909/notes/` - Create a TODO notes with some content.
+1. `PUT http://127.0.0.1:9909/notes/{identifier}?makeComplete=true` - Mark a TODO note as complete
+1. `GET http://127.0.0.1:9909/notes/{identifier}?makeComplete=false` - Mark a TODO note as incomplete
+1. `DELETE http://127.0.0.1:9909/notes/` - Delete a note
+
 
 # Install Steps
 
-From the projects root directory:
-
-**Note:** *Only required once.*
+From the root directory:
 
 1. Enter `cp .env.example .env` in your terminal to create your env.
 1. Install the latest versions for `docker` and `docker-compose`.
@@ -48,14 +53,7 @@ Refer to the list of all services and their default ports below:
 ```txt
 NGINX_PORT=9909
 DB_PORT=5432
-REDIS_PORT=6379
 ```
-
-You may set a `PORT_PREFIX` (empty by default) in the `.env` if needed.
-The `SERVICE_PORT_NUM` in the example below should be replaced with one
-of the values above that you wish to access.
-
-- To access any service use <http://127.0.0.1:{PORT_PREFIX}{SERVICE_PORT_NUM}>.
 
 ## Container Specific
 
@@ -63,15 +61,11 @@ A guide for accessing and verifying each of the major containers is
 provided below. Use this to ensure your environment is properly configured
 before beginning development.
 
-**Note**: *For the sections below, replace the port `.env` variables with the
-values that you have set for them.*
-
 ## App
 
-The primary Laravel Lumen app container, where the bulk of development will be
-done.
+The primary Laravel Lumen app container, where the bulk of development is done.
 
-1. Open <http://127.0.0.1:{PORT_PREFIX}{NGINX_PORT}/status> in your web browser,
+1. Open <http://127.0.0.1{NGINX_PORT}/status> in your web browser,
     should return:
 
 ```json
@@ -105,16 +99,9 @@ at is **DBeaver** <https://dbeaver.io/>.
 
 - `composer test:all` - Run all tests.
 - `composer test:unit` - Run unit tests.
-- `composer test:integration` - Run integration tests.
-- `composer test:path` - Run all tests that are inside a directory.
-    Expects path argument. Example: `composer test:path tests/unit`
-- `composer test:filter` - Filter tests. Often used to run individual tests.
-    Expects filter argument. Example: `composer test:filter MyTest`
 
 # Make Commands
 
-We are utilizing a number of Make commands to help with managing our app
-through Docker.
 For the full list see `Makefile` in the projects root directory.
 
 ## General Usage
@@ -125,8 +112,6 @@ For the full list see `Makefile` in the projects root directory.
     when finished testing/running this project.
 - `make build` - (Re)builds all services, for if you change a services
     Dockerfile or the contents of its build directory.
-- `make init` - Similar to `make up` but will (re)build all services
-    before starting the containers.
 - `make remake` - Powers off everything and destroys the volumes, rebuilds
     and restarts all services.
     **Note: This will reset your database completely.**
@@ -140,39 +125,17 @@ For the full list see `Makefile` in the projects root directory.
 - `make db` - SSH into the database container bash shell.
 - `make sql` - SSH into the database container bash shell and login to the
     app database via PostgreSQL command line.
-- `make redis` - SSH into the redis container bash shell.
 
 ## App Shortcuts
-
-- Running php artisan commands is now simple: `./artisan_docker CMD`
-  - Where `CMD` is any artisan command you want to run
-
-**OLD Shortcuts:**
 
 - `make db.fresh` - Drop all tables and re-run all migrations and seed
     the database.
 - `make db.migrate` - Run all migrations that have no already been run.
 - `make db.seed` - Seed the database.
 - `make db.reset` - Rollback all database migrations.
-- `make worker.queue` - Start processing jobs on the queue as a daemon.
-- `make tests` - Run tests.
 - `make cache-clear` - Clear composer and application cache.
 
 ## Test Shortcuts
 
 - `make test` - Run all tests.
 - `make test.unit` - Run unit tests.
-- `make test.integration` - Run integration tests.
-- `make test.path` - Run all tests that are inside a directory.
-    Expects path argument. Example: `make test.path path=MyTest`
-- `make test.filter` - Filter tests. Often used to run individual tests.
-    Expects filter argument. Example: `make test.filter filter=MyTest`
-
-## Log Shortcuts
-
-- `make logs` - Print Docker logs.
-- `make log.watch` - Follow Docker logs.
-- `make log.{log_name}` - You can isolate the following specific logs:
-    {web, app, db}.
-- `make log.{log_name}-watch` - You can isolate and follow the following
-    specific logs: {web, app, db}.
