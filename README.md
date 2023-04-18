@@ -13,7 +13,7 @@ A simple API to perform the following actions:
 1. `DELETE http://127.0.0.1:9909/notes/` - Delete a note
 
 
-# Install Steps
+# Installation
 
 From the root directory:
 
@@ -21,7 +21,7 @@ From the root directory:
 1. Install the latest versions for `docker` and `docker-compose`.
 1. Enter `composer install` in your terminal to pull in vendor packages.
 
-# Running Steps
+# Run
 
 From the projects root directory:
 
@@ -36,7 +36,7 @@ From the projects root directory:
 1. When finished development / testing enter `make down` in your terminal
     to power down the docker containers gracefully.
 
-# Access / Verifying
+# Access / Verification
 
 Use the guides below to ensure your local setup was successful and
 for continued usage during development.
