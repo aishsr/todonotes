@@ -7,9 +7,9 @@
 A simple API to perform the following actions:
 1. `GET http://127.0.0.1:9909/notes/` - Get all notes
 1. `GET http://127.0.0.1:9909/notes/{identifier}` - Get a single note with Author ID, content, completion time, and its created and updated at timestamps
-1. `POST http://127.0.0.1:9909/notes/` - Create a TODO notes with some content.
-1. `PUT http://127.0.0.1:9909/notes/{identifier}?makeComplete=true` - Mark a TODO note as complete
-1. `GET http://127.0.0.1:9909/notes/{identifier}?makeComplete=false` - Mark a TODO note as incomplete
+1. `POST http://127.0.0.1:9909/notes/` - Create a note with some content.
+1. `PUT http://127.0.0.1:9909/notes/{identifier}?makeComplete=true` - Mark a note as complete
+1. `GET http://127.0.0.1:9909/notes/{identifier}?makeComplete=false` - Mark a note as incomplete
 1. `DELETE http://127.0.0.1:9909/notes/` - Delete a note
 
 
